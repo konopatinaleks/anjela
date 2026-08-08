@@ -8,6 +8,31 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Image tag to push (if empty, uses commit SHA)'
+        required: false
+        default: ''
+      push_latest:
+        description: 'Also push :latest tag (true/false)'
+        required: false
+        default: 'true'
+      dockerfile:
+        description: 'Path to Dockerfile'
+        required: false
+        default: './Dockerfile'
+      context:
+        description: 'Build context'
+        required: false
+        default: '.'
+      platforms:
+        description: 'Comma-separated platforms for buildx'
+        required: false
+        default: 'linux/amd64,linux/arm64'
+      build_args:
+        description: 'Optional build args (e.g. ARG1=val ARG2=val)'
+        required: false
+        default: ''
 
 env:
   IMAGE_NAME: ghcr.io/konopatinaleks/anjela
@@ -19,6 +44,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set build variables from inputs
+        run: |
+          IMAGE_TAG=${{ github.event.inputs.image_tag != '' && github.event.inputs.image_tag || github.sha }}
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          echo "PUSH_LATEST=${{ github.event.inputs.push_latest }}" >> $GITHUB_ENV
+          echo "DOCKERFILE=${{ github.event.inputs.dockerfile }}" >> $GITHUB_ENV
+          echo "CONTEXT=${{ github.event.inputs.context }}" >> $GITHUB_ENV
+          echo "PLATFORMS=${{ github.event.inputs.platforms }}" >> $GITHUB_ENV
+          echo "BUILD_ARGS=${{ github.event.inputs.build_args }}" >> $GITHUB_ENV
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -33,12 +68,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Prepare tags
+        run: |
+          if [ "${PUSH_LATEST}" = "true" ] || [ "${PUSH_LATEST}" = "True" ] || [ "${PUSH_LATEST}" = "TRUE" ]; then
+            echo "TAGS=${IMAGE_NAME}:${IMAGE_TAG}\n${IMAGE_NAME}:latest" >> $GITHUB_ENV
+          else
+            echo "TAGS=${IMAGE_NAME}:${IMAGE_TAG}" >> $GITHUB_ENV
+          fi
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ${{ env.CONTEXT }}
+          file: ${{ env.DOCKERFILE }}
+          platforms: ${{ env.PLATFORMS }}
           push: true
-          tags: |
-            ${{ env.IMAGE_NAME }}:${{ github.sha }}
-            ${{ env.IMAGE_NAME }}:latest
-          file: ./Dockerfile
+          build-args: ${{ env.BUILD_ARGS }}
+          tags: ${{ env.TAGS }}
