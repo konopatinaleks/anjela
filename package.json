@@ -1,0 +1,10 @@
+{
+  "name": "anjela-chat",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Standalone flirty chat app for Anjela",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
