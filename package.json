@@ -1,10 +1,14 @@
 {
   "name": "anjela-chat",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Standalone flirty chat app for Anjela",
-  "main": "server.js",
+  "description": "Memory-aware LLM chat agent with the Anjela persona",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=22.13"
+  },
   "scripts": {
-    "start": "node server.js"
+    "start": "node src/server.js",
+    "test": "node --test test/*.test.js"
   }
 }
