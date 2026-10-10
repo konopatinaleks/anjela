@@ -3,46 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anjela Chat</title>
+    <meta name="theme-color" content="#140d18" />
+    <title>Anjela</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
     <div class="chat-shell">
       <aside class="sidebar">
         <div class="brand">
-          <span class="badge">A</span>
+          <span class="badge" aria-hidden="true">A</span>
           <div>
-            <p class="eyebrow">standalone</p>
+            <p class="eyebrow">личная комната</p>
             <h1>Anjela</h1>
           </div>
         </div>
 
         <div class="status-card">
           <span class="status-dot"></span>
-          Online now
+          <span id="status-label">Сейчас здесь</span>
         </div>
 
         <ul class="info-list">
-          <li>Warm mood</li>
-          <li>Private room</li>
-          <li>Live replies</li>
+          <li>Помнит тебя</li>
+          <li>Тёплый, острый тон</li>
+          <li>Без спешки</li>
         </ul>
+
+        <button id="reset-button" class="ghost-button" type="button">Забыть меня</button>
       </aside>
 
       <main class="chat-panel">
         <header class="chat-header">
           <div>
-            <p class="eyebrow">your room</p>
-            <h2>Flirty chat</h2>
+            <p class="eyebrow">только вы двое</p>
+            <h2>Anjela</h2>
           </div>
         </header>
 
         <section id="chat" class="chat-window" aria-live="polite"></section>
 
         <form id="chat-form" class="chat-form">
-          <label class="sr-only" for="message-input">Message</label>
-          <input id="message-input" type="text" autocomplete="off" placeholder="Напиши что-нибудь..." />
-          <button type="submit">Отправить</button>
+          <label class="sr-only" for="message-input">Сообщение</label>
+          <input id="message-input" type="text" maxlength="2000" autocomplete="off" enterkeyhint="send" placeholder="Напиши что-нибудь..." />
+          <button id="send-button" type="submit">Отправить</button>
         </form>
       </main>
     </div>

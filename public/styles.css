@@ -150,6 +150,11 @@ h1, h2 {
   word-break: break-word;
 }
 
+.message p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
 .message.user {
   align-self: flex-end;
   background: linear-gradient(135deg, var(--pink), var(--pink-strong));
@@ -204,6 +209,32 @@ h1, h2 {
   filter: brightness(1.04);
 }
 
+.chat-form button:disabled {
+  cursor: progress;
+  filter: grayscale(0.2);
+}
+
+.ghost-button {
+  margin-top: 28px;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: transparent;
+  color: var(--muted);
+  padding: 12px 14px;
+  cursor: pointer;
+}
+
+.ghost-button:hover {
+  color: var(--text);
+  border-color: rgba(255, 94, 168, 0.45);
+}
+
+.message.typing p {
+  letter-spacing: 0.3em;
+  color: var(--muted);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -216,14 +247,66 @@ h1, h2 {
   border: 0;
 }
 
+.feedback {
+  margin-top: 8px;
+  display: flex;
+  gap: 6px;
+}
+
+.feedback button {
+  padding: 2px 8px;
+  font-size: 0.85rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.feedback button.is-selected {
+  opacity: 1;
+  border-color: rgba(255, 94, 168, 0.8);
+  background: rgba(255, 94, 168, 0.16);
+}
+
+.feedback button:disabled {
+  cursor: default;
+}
+
 @media (max-width: 760px) {
+  body {
+    padding: 0;
+  }
+
   .chat-shell {
     grid-template-columns: 1fr;
     min-height: 100vh;
+    min-height: 100dvh;
+    border-radius: 0;
   }
 
   .sidebar {
     border-right: none;
     border-bottom: 1px solid var(--line);
+    padding: 16px;
+  }
+
+  .info-list {
+    display: none;
+  }
+
+  .ghost-button {
+    margin-top: 16px;
+  }
+
+  .chat-header,
+  .chat-window,
+  .chat-form {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .message {
+    max-width: 88%;
   }
 }
