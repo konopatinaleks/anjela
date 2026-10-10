@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anjela Chat</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="chat-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="badge">A</span>
+          <div>
+            <p class="eyebrow">standalone</p>
+            <h1>Anjela</h1>
+          </div>
+        </div>
+
+        <div class="status-card">
+          <span class="status-dot"></span>
+          Online now
+        </div>
+
+        <ul class="info-list">
+          <li>Warm mood</li>
+          <li>Private room</li>
+          <li>Live replies</li>
+        </ul>
+      </aside>
+
+      <main class="chat-panel">
+        <header class="chat-header">
+          <div>
+            <p class="eyebrow">your room</p>
+            <h2>Flirty chat</h2>
+          </div>
+        </header>
+
+        <section id="chat" class="chat-window" aria-live="polite"></section>
+
+        <form id="chat-form" class="chat-form">
+          <label class="sr-only" for="message-input">Message</label>
+          <input id="message-input" type="text" autocomplete="off" placeholder="Напиши что-нибудь..." />
+          <button type="submit">Отправить</button>
+        </form>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
